@@ -10,7 +10,12 @@
       "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
       "DisplayName": "Miscellaneous Files",
       "ColorIndex": -1
+    },
+    "da33bda1-a3a4-4061-b1bf-2d6b493be702": {
+      "ProjectGuid": "da33bda1-a3a4-4061-b1bf-2d6b493be702",
+      "DisplayName": "HowLongToBeat.Tests",
+      "ColorIndex": 1
     }
   },
-  "NextColorIndex": 1
+  "NextColorIndex": 2
 }
