@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "sohV5T+4jEx+wQ7NcAed09t42OL6HADtAIA+LcjSuM8hjDCBT4EFrgKM6zhpegC5HfP0CscDYCWmfAeKHygoOA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\james\\source\\repos\\HowLongToBeat\\HowLongToBeat\\HowLongToBeat.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\james\\.nuget\\packages\\htmlagilitypack\\1.11.39\\htmlagilitypack.1.11.39.nupkg.sha512",
+    "C:\\Users\\james\\.nuget\\packages\\randomuseragent\\1.1.2\\randomuseragent.1.1.2.nupkg.sha512"
+  ],
+  "logs": []
+}

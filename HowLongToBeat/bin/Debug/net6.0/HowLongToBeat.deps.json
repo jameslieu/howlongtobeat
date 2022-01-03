@@ -1,0 +1,57 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "HowLongToBeat/1.0.0": {
+        "dependencies": {
+          "HtmlAgilityPack": "1.11.39",
+          "RandomUserAgent": "1.1.2"
+        },
+        "runtime": {
+          "HowLongToBeat.dll": {}
+        }
+      },
+      "HtmlAgilityPack/1.11.39": {
+        "runtime": {
+          "lib/netstandard2.0/HtmlAgilityPack.dll": {
+            "assemblyVersion": "1.11.39.0",
+            "fileVersion": "1.11.39.0"
+          }
+        }
+      },
+      "RandomUserAgent/1.1.2": {
+        "runtime": {
+          "lib/netcoreapp3.1/RandomUserAgent.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "HowLongToBeat/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "HtmlAgilityPack/1.11.39": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-9xk8l+68NaHe3RmfzAOO0A5DcotDO4lAilUnmZpu6h/EpBCfDVrxr7aNClIGK/p3vPiypVzpUCENm72UKfIVjg==",
+      "path": "htmlagilitypack/1.11.39",
+      "hashPath": "htmlagilitypack.1.11.39.nupkg.sha512"
+    },
+    "RandomUserAgent/1.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jj0nKiIZaApcvj6tUv5RJn0rAznpz19ncN1SP0mqZhWf+m2DEcfqTTCT2ZKOXJ7HXNprlH7X18gTkhFFu16S+Q==",
+      "path": "randomuseragent/1.1.2",
+      "hashPath": "randomuseragent.1.1.2.nupkg.sha512"
+    }
+  }
+}
