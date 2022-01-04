@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace HowLongToBeat.Tests
 {
-    public class Tests
+    public class HLTBHtmlParserTests
     {
         [Test]
         public async Task Test_HTML_Parser()
@@ -71,46 +71,26 @@ namespace HowLongToBeat.Tests
 ";
 
 			// act 
-			var ws = new HtmlParser();
+			var ws = new HLTBHtmlParser();
 			var result = await ws.GetGameDetailsAsync(html);
 
 			// assert
-			var pathfinder = new GameDetail(title: "Pathfinder: Kingmaker", main: "74½ Hours", mainandextras: "126 Hours", completionist: "188 Hours");
+			var pf = new Game(title: "Pathfinder: Kingmaker", imgURL: "https://howlongtobeat.com/games/60050_Pathfinder_Kingmaker.jpg", main: "74½ Hours", mainandextras: "126 Hours", completionist: "188 Hours");
 			var actual1 = result.First();
-            Assert.That(actual1.Title, Is.EqualTo(pathfinder.Title));
-            Assert.That(actual1.Main, Is.EqualTo(pathfinder.Main));
-            Assert.That(actual1.MainAndExtras, Is.EqualTo(pathfinder.MainAndExtras));
-            Assert.That(actual1.Completionist, Is.EqualTo(pathfinder.Completionist));
+            Assert.That(actual1.Title, Is.EqualTo(pf.Title));
+            Assert.That(actual1.ImgURL, Is.EqualTo(pf.ImgURL));
+            Assert.That(actual1.Main, Is.EqualTo(pf.Main));
+            Assert.That(actual1.MainAndExtras, Is.EqualTo(pf.MainAndExtras));
+            Assert.That(actual1.Completionist, Is.EqualTo(pf.Completionist));
 
-            var wor = new GameDetail(title: "Pathfinder: Wrath of the Righteous", main: "57½ Hours", mainandextras:  "125 Hours", completionist: "200 Hours");
+            var wor = new Game(title: "Pathfinder: Wrath of the Righteous", imgURL: "https://howlongtobeat.com/games/83856_Pathfinder_Wrath_of_the_Righteous.jpg", main: "57½ Hours", mainandextras:  "125 Hours", completionist: "200 Hours");
 			var actual2 = result.Last();
             Assert.That(actual2.Title, Is.EqualTo(wor.Title));
+            Assert.That(actual2.ImgURL, Is.EqualTo(wor.ImgURL));
             Assert.That(actual2.Main, Is.EqualTo(wor.Main));
             Assert.That(actual2.MainAndExtras, Is.EqualTo(wor.MainAndExtras));
             Assert.That(actual2.Completionist, Is.EqualTo(wor.Completionist));
         }
-
-
-		[Test]
-		public void Test_Get_Main_Time()
-		{
-			// arrange
-			var target = "Main Story,      74½ Hours,       Main + Extra,      126 Hours,       Completionist,      188 Hours";
-
-			// act
-			var hp = new HtmlParser(); // add constructor to accept HTML param
-			var expected = hp.GetGameData(target);
-
-			// assert
-			var actual = new Dictionary<string, string>
-            {
-				{ "main", "74½ Hours" },
-				{ "mainAndExtras", "126 Hours" },
-				{ "completionist", "188 Hours" }
-            };
-			Assert.That(actual, Is.EqualTo(expected)); 
-
-		}
     }
 }
 
