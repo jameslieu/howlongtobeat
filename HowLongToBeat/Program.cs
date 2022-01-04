@@ -1,8 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
 using RandomUserAgent;
-using System.Net.Http.Headers;
-using HtmlAgilityPack;
 using AngleSharp;
 using System.Text.RegularExpressions;
 
@@ -10,125 +6,161 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
 app.MapGet("/", async () => {
-	var ws = new WebScraper(); 
-	var result = await ws.Test(); 
+	var pathfinder = new Game(title: "Pathfinder: Kingmaker", imgURL: "https://example.com", main: "74½ Hours", mainandextras: "126 Hours", completionist: "188 Hours");
+	var wor = new Game(title: "Pathfinder: Wrath of the Righteous", imgURL: "https://example.com", main: "57½ Hours", mainandextras: "125 Hours", completionist: "200 Hours");
+
+	return new List<Game> { pathfinder, wor };
+});
+
+app.MapGet("/search/{query}", async (string query) => {
+	var ws = new HLTBWebScraper();
+	var result = await ws.Search(query);
 	return result;
 });
 
 app.Run();
 
 
-public class WebScraper
+public class HLTBWebScraper
 {
-	public async Task<string> Test()
-	{
+	public async Task<List<Game>> Search(string query)
+    {
+        string html = await GetGameHTMLResultsAsync(query);
 
-		HttpClient client = new HttpClient();
-		client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
-		var userAgent = RandomUa.RandomUserAgent;
-		client.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
+        var hp = new HLTBHtmlParser();
+        var result = await hp.GetGameDetailsAsync(html);
 
 
-		var values = new Dictionary<string, string>
-		{
-			{"queryString", "Pathfinder"},
-			{"t", "games"},
-			{"sorthead", "popular"},
-			{"sortd", "Normal Order"},
-			{"plat", ""},
-			{"length_type", " main"},
-			{"length_min", ""},
-			{"length_max", ""},
-			{"detail", " 0"},
-		};
+        return result;
+    }
 
-		string url = "https://howlongtobeat.com/search_results?page=1";
-		var data = new FormUrlEncodedContent(values);
-		var response = await client.PostAsync(url, data);
-		var responseString = await response.Content.ReadAsStringAsync();
+    private static async Task<string> GetGameHTMLResultsAsync(string query)
+    {
+        var client = new HttpClient();
+        client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
+        var userAgent = RandomUa.RandomUserAgent;
+        client.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
 
-		var htmlDoc = new HtmlDocument();
-		htmlDoc.LoadHtml(responseString);
 
-		var htmlNodes = htmlDoc.DocumentNode.SelectNodes("//div[@class='search_list_details']");
-		foreach (var node in htmlNodes)
-		{
-			var txt = node.InnerText;
-			if (txt.Length > 0)
-			{
-				Console.WriteLine(node.InnerText);
-			}
-		}
+        var values = new Dictionary<string, string>
+        {
+            {"queryString", query},
+            {"t", "games"},
+            {"sorthead", "popular"},
+            {"sortd", "Normal Order"},
+            {"plat", ""},
+            {"length_type", " main"},
+            {"length_min", ""},
+            {"length_max", ""},
+            {"detail", " 0"},
+        };
 
-		return await Task.FromResult("All good");
-	}
+        string url = "https://howlongtobeat.com/search_results?page=1";
+        var data = new FormUrlEncodedContent(values);
+        var response = await client.PostAsync(url, data);
+        var responseString = await response.Content.ReadAsStringAsync();
+        return responseString;
+    }
 }
 
-public class GameDetail
+public class Game
 {
-    public string Title { get; set; }
-    public string Main { get; set; }
-    public string MainAndExtras { get; set; }
-    public string Completionist { get; set; }
+    public string Title { get; }
+    public string ImgURL { get; }
+    public string Main { get; }
+    public string MainAndExtras { get; }
+    public string Completionist { get; }
 
-    public GameDetail(string title, string main, string mainandextras, string completionist)
+    public Game(string title, string main, string mainandextras, string completionist, string imgURL)
     {
 		Title = title;
+        ImgURL = imgURL;
 		Main = main;
 		MainAndExtras = mainandextras;
 		Completionist = completionist;
     }
 }
 
-public class HtmlParser
+public class HLTBHtmlParser
 {
-	public async Task<List<GameDetail>> GetGameDetailsAsync(string html)
+	public async Task<List<Game>> GetGameDetailsAsync(string html)
     {
-		var config = Configuration.Default.WithJs();
-		var context = BrowsingContext.New(config);
-		var document = await context.OpenAsync(req => req.Content(html));
+        var config = Configuration.Default;
+        var context = BrowsingContext.New(config);
+        var document = await context.OpenAsync(req => req.Content(html));
 
-		var gameTitlesNodes = document.All.Where(x => x.LocalName == "a" && x.ClassList.Contains("text_white"));
-		var gameTitles = new string[gameTitlesNodes.Count()];
+        var gameTitles = GetGameTitles(document);
+        var gameImgs = GetGameImgs(document);
+        var gameDetails = GetGameDetails(document);
 
-		var i = -1;
-		foreach (var x in gameTitlesNodes)
+        var result = new List<Game>();
+        for (var k = 0; k < gameTitles.Length; k++)
         {
-			i++;
-			var contentWithoutTabsOrNewLine = Regex.Replace(x.TextContent, @"\t|\n", " ").Trim();
-			var title = Regex.Replace(contentWithoutTabsOrNewLine, @"\s+", " ");
-			gameTitles[i] = title;
+            var details = MapToDictionary(gameDetails[k]);
+            var gd = new Game(
+                title: gameTitles[k],
+                imgURL: gameImgs[k],
+                main: details["main"],
+                mainandextras: details["mainAndExtras"],
+                completionist: details["completionist"]
+            );
+            result.Add(gd);
         }
 
-		var gameDetailsNodes = document.All.Where(x => x.LocalName == "div" && x.ClassList.Contains("search_list_details_block"));
-		var gameDetails = new string[gameDetailsNodes.Count()];
-
-		int j = -1;
-		foreach (var x in gameDetailsNodes)
-		{
-			j++;
-			var contentWithouTabs = Regex.Replace(x.TextContent, @"\t", " ").Trim();
-			var content = Regex.Replace(contentWithouTabs, @"\n", ",");
-			gameDetails[j] = content.Trim();
-		}
-
-		var result = new List<GameDetail>();
-		for (var k = 0; k < gameTitles.Length; k++)		
-        {
-			var details = GetGameData(gameDetails[k]);
-			var gd = new GameDetail(
-				title: gameTitles[k],
-				main: details["main"],
-				mainandextras: details["mainAndExtras"],
-				completionist: details["completionist"]
-			);
-			result.Add(gd);
-        }
-
-		return await Task.FromResult(result);
+        return await Task.FromResult(result);
     }
 
-	public Dictionary<string, string> GetGameData(string text)
+    private string[] GetGameImgs(AngleSharp.Dom.IDocument document)
+    {
+        var gameImgNodes = document.All.Where(x => x.LocalName == "img");
+        var gameImgs = new string[gameImgNodes.Count()];
+        var i = -1;
+        foreach (var x in gameImgNodes)
+        {
+            i++;
+            var imgNode = x.Attributes.First(x => x.LocalName == "src");
+            var imgURI = $"https://howlongtobeat.com{imgNode.Value}";
+            gameImgs[i] = imgURI;
+        }
+
+        return gameImgs;
+    }
+
+    private string[] GetGameTitles(AngleSharp.Dom.IDocument document)
+    {
+        var gameTitlesNodes = document.All.Where(x => x.LocalName == "a" && x.ClassList.Contains("text_white"));
+        var gameTitles = new string[gameTitlesNodes.Count()];
+
+        var i = -1;
+        foreach (var x in gameTitlesNodes)
+        {
+            i++;
+            var contentWithoutTabsOrNewLine = Regex.Replace(x.TextContent, @"\t|\n", " ").Trim();
+            var title = Regex.Replace(contentWithoutTabsOrNewLine, @"\s+", " ");
+            gameTitles[i] = title;
+        }
+
+        return gameTitles;
+    }
+
+    private string[] GetGameDetails(AngleSharp.Dom.IDocument document)
+    {
+        var gameDetailsNodes = document.All.Where(x => x.LocalName == "div" && x.ClassList.Contains("search_list_details_block"));
+        var gameDetails = new string[gameDetailsNodes.Count()];
+
+        int j = -1;
+        foreach (var x in gameDetailsNodes)
+        {
+            j++;
+            var contentWithouTabs = Regex.Replace(x.TextContent, @"\t", " ").Trim();
+            var content = Regex.Replace(contentWithouTabs, @"\n", ",");
+            gameDetails[j] = content.Trim();
+        }
+
+        return gameDetails;
+    }
+
+    private Dictionary<string, string> MapToDictionary(string text)
     {
 		var result = new Dictionary<string, string>();
         var collection = text.Split(",");
