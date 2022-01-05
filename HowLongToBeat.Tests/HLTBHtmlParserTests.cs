@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace HowLongToBeat.Tests
 {
-    public class HLTBHtmlParserTests
-    {
-        [Test]
-        public async Task Test_HTML_Parser()
-        {
+	public class HLTBHtmlParserTests
+	{
+		[Test]
+		public async Task Test_HTML_Parser()
+		{
 			// arrange
 			var html =
 				@"
@@ -77,20 +77,20 @@ namespace HowLongToBeat.Tests
 			// assert
 			var pf = new Game(title: "Pathfinder: Kingmaker", imgURL: "https://howlongtobeat.com/games/60050_Pathfinder_Kingmaker.jpg", main: "74½ Hours", mainandextras: "126 Hours", completionist: "188 Hours");
 			var actual1 = result.First();
-            Assert.That(actual1.Title, Is.EqualTo(pf.Title));
-            Assert.That(actual1.ImgURL, Is.EqualTo(pf.ImgURL));
-            Assert.That(actual1.Main, Is.EqualTo(pf.Main));
-            Assert.That(actual1.MainAndExtras, Is.EqualTo(pf.MainAndExtras));
-            Assert.That(actual1.Completionist, Is.EqualTo(pf.Completionist));
+			Assert.That(actual1.Title, Is.EqualTo(pf.Title));
+			Assert.That(actual1.ImgURL, Is.EqualTo(pf.ImgURL));
+			Assert.That(actual1.Main, Is.EqualTo(pf.Main));
+			Assert.That(actual1.MainAndExtras, Is.EqualTo(pf.MainAndExtras));
+			Assert.That(actual1.Completionist, Is.EqualTo(pf.Completionist));
 
-            var wor = new Game(title: "Pathfinder: Wrath of the Righteous", imgURL: "https://howlongtobeat.com/games/83856_Pathfinder_Wrath_of_the_Righteous.jpg", main: "57½ Hours", mainandextras:  "125 Hours", completionist: "200 Hours");
+			var wor = new Game(title: "Pathfinder: Wrath of the Righteous", imgURL: "https://howlongtobeat.com/games/83856_Pathfinder_Wrath_of_the_Righteous.jpg", main: "57½ Hours", mainandextras:  "125 Hours", completionist: "200 Hours");
 			var actual2 = result.Last();
-            Assert.That(actual2.Title, Is.EqualTo(wor.Title));
-            Assert.That(actual2.ImgURL, Is.EqualTo(wor.ImgURL));
-            Assert.That(actual2.Main, Is.EqualTo(wor.Main));
-            Assert.That(actual2.MainAndExtras, Is.EqualTo(wor.MainAndExtras));
-            Assert.That(actual2.Completionist, Is.EqualTo(wor.Completionist));
-        }
-    }
+			Assert.That(actual2.Title, Is.EqualTo(wor.Title));
+			Assert.That(actual2.ImgURL, Is.EqualTo(wor.ImgURL));
+			Assert.That(actual2.Main, Is.EqualTo(wor.Main));
+			Assert.That(actual2.MainAndExtras, Is.EqualTo(wor.MainAndExtras));
+			Assert.That(actual2.Completionist, Is.EqualTo(wor.Completionist));
+		}
+	}
 }
 
