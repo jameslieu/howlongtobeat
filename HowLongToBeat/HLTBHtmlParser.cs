@@ -95,10 +95,19 @@ namespace HowLongToBeat
             var result = new Dictionary<string, string>();
             var collection = text.Split(",");
 
-            result.Add("main", collection[1].Trim());
-            result.Add("mainAndExtras", collection[3].Trim());
-            result.Add("completionist", collection[5].Trim());
-
+            // Some data returns differently so we'll ignore those for now
+            if (collection.Length != 6)
+            {
+                result.Add("main", "");
+                result.Add("mainAndExtras", "");
+                result.Add("completionist", "");
+            }
+            else
+            {
+                result.Add("main", collection[1].Trim());
+                result.Add("mainAndExtras", collection[3].Trim());
+                result.Add("completionist", collection[5].Trim());
+            }
             return result;
         }
     }
