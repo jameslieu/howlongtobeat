@@ -2,12 +2,9 @@
 
 ## About & Credits
 
-[How long to beat](https://howlongtobeat.com/) provides information and data about games and how long it will take to finish them.
+[How long to beat](https://howlongtobeat.com/) provides information and data about games and how long it will take to finish them. It's a great website which relies heavily from community data.
 
 This package is a simple wrapper api to fetch data from [How long to beat](https://howlongtobeat.com/) (search and detail). Please use this responsibly.
-
-It's a great website which relies heavily from community data. Please check the website and [support](https://howlongtobeat.com/donate.php) if you like what they are doing.
-
 
 ## Usage
 
