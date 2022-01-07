@@ -5,7 +5,12 @@ using System.Threading.Tasks;
 
 namespace HowLongToBeat
 {
-    public class HLTBWebScraper
+    public interface IHLTBWebScraper
+    {
+        Task<List<Game>> Search(string query);
+    }
+
+    public class HLTBWebScraper : IHLTBWebScraper
     {
         public async Task<List<Game>> Search(string query)
         {

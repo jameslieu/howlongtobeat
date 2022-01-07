@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace HowLongToBeat
 {
-    public class HLTBHtmlParser
+    public interface IHLTBHtmlParser
+    {
+        Task<List<Game>> GetGameDetailsAsync(string html);
+    }
+
+    public class HLTBHtmlParser : IHLTBHtmlParser
     {
         public async Task<List<Game>> GetGameDetailsAsync(string html)
         {
