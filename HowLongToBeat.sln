@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HowLongToBeat", "HowLongToBeat\HowLongToBeat.csproj", "{6A5A9814-5356-47CD-A026-C00A9793024A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HowLongToBeat.Tests", "HowLongToBeat.Tests\HowLongToBeat.Tests.csproj", "{DE51990B-AB54-4A77-9A90-249D7BC4F777}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6A5A9814-5356-47CD-A026-C00A9793024A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A5A9814-5356-47CD-A026-C00A9793024A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A5A9814-5356-47CD-A026-C00A9793024A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A5A9814-5356-47CD-A026-C00A9793024A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE51990B-AB54-4A77-9A90-249D7BC4F777}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE51990B-AB54-4A77-9A90-249D7BC4F777}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE51990B-AB54-4A77-9A90-249D7BC4F777}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE51990B-AB54-4A77-9A90-249D7BC4F777}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2B525157-6C7B-4608-9B9A-31E32E3CF5F6}
+	EndGlobalSection
+EndGlobal
