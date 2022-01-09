@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Nullable>enable</Nullable>
+    <VersionPrefix>1.0.1</VersionPrefix>
     <Authors>James Lieu</Authors>
     <Description>A simple wrapper API to fetch data from HowLongToBeat.com</Description>
     <PackageProjectUrl>https://github.com/jameslieu/howlongtobeat</PackageProjectUrl>
