@@ -13,18 +13,17 @@ namespace HowLongToBeat
     public class HLTBWebScraper : IHLTBWebScraper
     {
         private readonly HttpClient client;
-        private readonly HLTBHtmlParser hLTBHtmlParser;
 
-        public HLTBWebScraper(HttpClient client, HLTBHtmlParser hLTBHtmlParser)
+        public HLTBWebScraper(HttpClient client)
         {
             this.client = client;
-            this.hLTBHtmlParser = hLTBHtmlParser;
         }
 
         public async Task<List<Game>> Search(string query)
         {
             string html = await GetGameHTMLResultsAsync(query);
-            var result = await hLTBHtmlParser.GetGameDetailsAsync(html);
+            var parser = new HLTBHtmlParser();
+            var result = await parser.GetGameDetailsAsync(html);
 
             return result;
         }

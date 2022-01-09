@@ -29,9 +29,12 @@ using HowLongToBeat;
 
 
 - Instantiate the `HLTBWebScraper` object and use the `Search()` method
+  - Note: it depends on a `HttpClient` instance
 ```csharp
+var httpClient = new HttpClient();
+var ws = new HLTBWebScraper(httpClient);
+
 var query = "Halo";
-var ws = new HLTBWebScraper();
 var result = await ws.Search(query);
 ```
 

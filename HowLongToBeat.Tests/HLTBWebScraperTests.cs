@@ -18,9 +18,7 @@ namespace HowLongToBeat.Tests
 			var content = new StringContent(ExampleContent());
 			var fakeHandler = new FakeHttpMessageHandler(content);
 			var client = new HttpClient(fakeHandler);
-
-			var hltbParser = new HLTBHtmlParser();
-			var ws = new HLTBWebScraper(client, hltbParser);
+			var ws = new HLTBWebScraper(client);
 
 			// act
 			var actual = await ws.Search(query);
