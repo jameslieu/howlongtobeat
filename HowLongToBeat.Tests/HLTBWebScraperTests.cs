@@ -108,13 +108,15 @@ namespace HowLongToBeat.Tests
 			this.content = content;
 		}
 
-		public HttpRequestMessage RequestMessage { get; private set; }
+		public HttpRequestMessage? RequestMessage { get; private set; }
 
 		protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
 		{
 			RequestMessage = request;
-			var responseMessage = new HttpResponseMessage(HttpStatusCode.OK);
-			responseMessage.Content = content;
+			var responseMessage = new HttpResponseMessage(HttpStatusCode.OK)
+			{
+				Content = content
+			};
 			return Task.FromResult(responseMessage);
 		}
 	}
