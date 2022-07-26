@@ -33,6 +33,8 @@ namespace HowLongToBeat
             client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
             var userAgent = RandomUa.RandomUserAgent;
             client.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
+            client.DefaultRequestHeaders.Add("Origin", "https://howlongtobeat.com");
+            client.DefaultRequestHeaders.Add("Referer", "https://howlongtobeat.com");
 
             var values = new Dictionary<string, string>
             {
@@ -44,7 +46,11 @@ namespace HowLongToBeat
                 {"length_type", " main"},
                 {"length_min", ""},
                 {"length_max", ""},
-                {"detail", " 0"},
+                {"detail", "0"},
+                {"v", ""},
+                {"f", ""},
+                {"g", ""},
+                {"randomize", "0"},
             };
 
             string url = "https://howlongtobeat.com/search_results?page=1";
