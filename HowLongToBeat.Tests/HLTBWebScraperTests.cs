@@ -26,6 +26,24 @@ namespace HowLongToBeat.Tests
 		}
 
 		[Test]
+		public async Task ReusingSameHttpClient()
+		{
+			IList<Game> result;
+			var client = new HowLongToBeat.HLTBWebScraper(new System.Net.Http.HttpClient());
+			result = await client.Search("Gravity Rush");
+			try
+			{
+				result = await client.Search("Atelier Rorona Plus: The Alchemist of Arland");
+			}
+			//    System.FormatException : Cannot add value because header 'Referer' does not support multiple values.
+			catch(System.FormatException)
+			{
+				Assert.Fail();
+			}
+			Assert.Pass();
+		}
+
+		[Test]
 		public async Task Test_Search()
 		{
 			// arrange
