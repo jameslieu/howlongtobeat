@@ -130,8 +130,6 @@ namespace HowLongToBeat.Tests
 		}
 	}
 
-
-
 	public class FakeHttpMessageHandler : HttpMessageHandler
 	{
 		private readonly HttpContent content;
