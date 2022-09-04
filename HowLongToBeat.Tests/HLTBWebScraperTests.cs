@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,6 +11,20 @@ namespace HowLongToBeat.Tests
 {
 	public class HLTBWebScraperTests
 	{
+
+		[Test]
+		public async Task RealWorldTest()
+		{
+			
+			var client = new HowLongToBeat.HLTBWebScraper(new System.Net.Http.HttpClient());
+			var result = await client.Search("Gravity Rush");
+
+			ICollection<string> titles = result.Select(element=>element.Title).ToList();
+			CollectionAssert.Contains(titles,"Gravity Rush");
+			CollectionAssert.Contains(titles,"Gravity Rush: Remastered");
+			
+		}
+
 		[Test]
 		public async Task Test_Search()
 		{
@@ -96,6 +111,8 @@ namespace HowLongToBeat.Tests
 			return html;
 		}
 	}
+
+
 
 	public class FakeHttpMessageHandler : HttpMessageHandler
 	{
