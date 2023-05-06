@@ -84,7 +84,7 @@ namespace HowLongToBeat.Tests
             var ws = new HLTBWebScraper(client);
 
             // act
-            var actual = await ws.Search(query);
+            var actual = await ws.Search(query, Enums.EMethodBehaviour.WebScrapper);
 
             // assert
             var pathfinder = new Game(title: "Pathfinder: Kingmaker", imgURL: "https://howlongtobeat.com/games/60050_Pathfinder_Kingmaker.jpg", main: "74½ Hours", mainandextras: "126 Hours", completionist: "188 Hours");
