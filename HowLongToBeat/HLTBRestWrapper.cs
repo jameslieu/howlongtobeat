@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 using HowLongToBeat.DTO;
 
-using RandomUserAgent;
 using Newtonsoft.Json.Linq;
 
 namespace HowLongToBeat
@@ -28,14 +27,14 @@ namespace HowLongToBeat
 
         public async Task<List<Game>> Search(string query)
         {
-            var userAgent = RandomUa.RandomUserAgent;
-            client.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
-
             HttpResponseMessage response = await client.PostAsync(
                 BasePath,
                 new StringContent(getBody(query), System.Text.Encoding.UTF8, "application/json")
                 ).ConfigureAwait(false);
-            var list = JObject.Parse(await response.Content.ReadAsStringAsync()).ToObject<HLTBResponse>();
+            
+//            if (response.StatusCode != System.Net.HttpStatusCode.OK){return new List<Game>();} ??
+
+            HLTBResponse? list = JObject.Parse(await response.Content.ReadAsStringAsync()).ToObject<HLTBResponse>();
 
             if (list == null || list.GameList == null) { return new List<Game>(); }
 

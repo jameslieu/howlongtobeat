@@ -8,24 +8,28 @@ namespace HowLongToBeat
 {
     public interface IHLTBWebScraper
     {
-        Task<List<Game>> Search(string query, EMethodBehaviour behaviour = EMethodBehaviour.RestCalls);
+        Task<List<Game>> Search(string query);
     }
 
     public class HLTBWebScraper : IHLTBWebScraper
     {
         private readonly HttpClient client;
-        HLTBRestWrapper restWrapper;
+        private readonly HLTBRestWrapper restWrapper;
+        private readonly EMethodBehaviour behaviour;
 
-        public HLTBWebScraper(HttpClient client)
+        public HLTBWebScraper(HttpClient client, EMethodBehaviour behaviour = EMethodBehaviour.RestCalls)
         {
+            this.behaviour = behaviour;
             this.client = client;
             client.DefaultRequestHeaders.Add("Origin", "https://howlongtobeat.com");
             client.DefaultRequestHeaders.Add("Referer", "https://howlongtobeat.com");
             restWrapper = new HLTBRestWrapper(client);
             client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
+            client.DefaultRequestHeaders.UserAgent.ParseAdd(RandomUa.RandomUserAgent);
+
         }
 
-        public async Task<List<Game>> Search(string query, EMethodBehaviour behaviour = EMethodBehaviour.RestCalls)
+        public async Task<List<Game>> Search(string query)
         {
 
             if ( behaviour == EMethodBehaviour.WebScrapper)
@@ -42,8 +46,6 @@ namespace HowLongToBeat
 
         private async Task<string> GetGameHTMLResultsAsync(string query)
         {
-            var userAgent = RandomUa.RandomUserAgent;
-            client.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
 
             var values = new Dictionary<string, string>
             {
